@@ -1,0 +1,12 @@
+## Title: LibRadialMenu
+## Description: Allows users to slot addon functions onto a customizable quickslot wheel
+## Author: |c0DC1CF@M0R_Gaming|r
+## APIVersion: 101048
+## Version: 1
+## AddOnVersion: 1
+## IsLibrary: true
+## SavedVariables: RadialMenuSlots
+## DependsOn: LibHarvensAddonSettings>=20005
+
+LibRadialMenu.lua
+LibRadialMenu.xml
