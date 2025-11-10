@@ -3,7 +3,7 @@ LibRadialMenu = LibRadialMenu or {}
 
 
 local LIBRADIAL_WHEEL = HOTBAR_CATEGORY_MAX_VALUE + 100
-ZO_CreateStringId(string.format("SI_HOTBARCATEGORY%d",LIBRADIAL_WHEEL), "Addon Entries")
+--ZO_CreateStringId(string.format("SI_HOTBARCATEGORY%d",LIBRADIAL_WHEEL), "Addon Entries") -- done in lang
 
 local UTILITY_WHEEL_CATEGORIES =
 {
@@ -111,12 +111,12 @@ end)
 --[[
 	
 	
-	       _        ____     ____   ____   ____   ___      __________      ___   ____
-	      dM.      6MMMMb\  6MMMMb\ `MM'  6MMMMb/ `MM\     `M'`MM'`MM\     `M'  6MMMMb/
-	     ,MMb     6M'    ` 6M'    `  MM  8P    YM  MMM\     M  MM  MMM\     M  8P    YM
-	     d'YM.    MM       MM        MM 6M      Y  M\MM\    M  MM  M\MM\    M 6M      Y
-	    ,P `Mb    YM.      YM.       MM MM         M \MM\   M  MM  M \MM\   M MM
-	    d'  YM.    YMMMMb   YMMMMb   MM MM         M  \MM\  M  MM  M  \MM\  M MM
+		   _        ____     ____   ____   ____   ___      __________      ___   ____
+		  dM.      6MMMMb\  6MMMMb\ `MM'  6MMMMb/ `MM\     `M'`MM'`MM\     `M'  6MMMMb/
+		 ,MMb     6M'    ` 6M'    `  MM  8P    YM  MMM\     M  MM  MMM\     M  8P    YM
+		 d'YM.    MM       MM        MM 6M      Y  M\MM\    M  MM  M\MM\    M 6M      Y
+		,P `Mb    YM.      YM.       MM MM         M \MM\   M  MM  M \MM\   M MM
+		d'  YM.    YMMMMb   YMMMMb   MM MM         M  \MM\  M  MM  M  \MM\  M MM
 	   ,P   `Mb        `Mb      `Mb  MM MM     ___ M   \MM\ M  MM  M   \MM\ M MM     ___
 	   d'    YM.        MM       MM  MM MM     `M' M    \MM\M  MM  M    \MM\M MM     `M'
 	  ,MMMMMMMMb        MM       MM  MM YM      M  M     \MMM  MM  M     \MMM YM      M
@@ -229,7 +229,7 @@ ESO_Dialogs["LibProfileAssignDialogue"] = {
 		end, dialog.data.slotIndex)
 	end,
 	title = {
-		text = function(dialog) return string.format("Assign an entry for slot %d.", dialog.data.slotIndex) end,
+		text = function(dialog) return string.format(GetString(SI_LIBRADIALMENU_ASSIGN_TITLE), dialog.data.slotIndex) end,
 	},
 	buttons = {
 		{
@@ -270,12 +270,12 @@ ESO_Dialogs["LibProfileAssignDialogue"] = {
 		local data = dialog.entryList:GetTargetData()
 		if data.addonName and data.icon then
 			local headerData =
-	        {
-	            titleText = data.addonName,
-	            messageText = string.format("|t27:27:%s|t %s\n\n%s", data.icon, data.name, data.description),
-	            messageTextAlignment = TEXT_ALIGN_LEFT,
-	        }
-	        GAMEPAD_TOOLTIPS:ShowGenericHeader(GAMEPAD_LEFT_DIALOG_TOOLTIP, headerData)
+			{
+				titleText = data.addonName,
+				messageText = string.format("|t27:27:%s|t %s\n\n%s", data.icon, data.name, data.description),
+				messageTextAlignment = TEXT_ALIGN_LEFT,
+			}
+			GAMEPAD_TOOLTIPS:ShowGenericHeader(GAMEPAD_LEFT_DIALOG_TOOLTIP, headerData)
 			ZO_GenericGamepadDialog_ShowTooltip(dialog)
 		else
 			ZO_GenericGamepadDialog_HideTooltip(dialog)
@@ -303,9 +303,9 @@ ESO_Dialogs["LibProfileAssignDialogue"] = {
 	MM        MM            MM         MM      MM  M\MM\    M 6M      Y MM
 	YM.       MM    ,       MM         MM      MM  M \MM\   M MM        YM.
 	 YMMMMb   MMMMMMM       MM         MM      MM  M  \MM\  M MM         YMMMMb
-	     `Mb  MM    `       MM         MM      MM  M   \MM\ M MM     ___     `Mb
-	      MM  MM            MM         MM      MM  M    \MM\M MM     `M'      MM
-	      MM  MM            MM         MM      MM  M     \MMM YM      M       MM
+		 `Mb  MM    `       MM         MM      MM  M   \MM\ M MM     ___     `Mb
+		  MM  MM            MM         MM      MM  M    \MM\M MM     `M'      MM
+		  MM  MM            MM         MM      MM  M     \MMM YM      M       MM
 	L    ,M9  MM      /     MM         MM      MM  M      \MM  8b    d9 L    ,M9
 	MYMMMM9  _MMMMMMMMM    _MM_       _MM_    _MM__M_      \M   YMMMM9  MYMMMM9
 	
@@ -328,9 +328,9 @@ local getLabel = function(entryData, index)
 		local slotIcon = entry.icon or ""
 		local slotname = entry.name or entryData.entry
 		local description = entry.description
-    	return string.format("Slot %d: |t27:27:%s|t %s", index, slotIcon, slotname)
+		return string.format("%s|t27:27:%s|t %s", string.format(GetString(SI_LIBRADIALMENU_ASSIGN_SLOT), index), slotIcon, slotname)
 	else
-		return string.format("Slot %d:", index)
+		return string.format(GetString(SI_LIBRADIALMENU_ASSIGN_SLOT), index)
 	end
 end
 
@@ -342,22 +342,57 @@ local getTooltip = function(entryData)
 		local slotIcon = entry.icon or ""
 		local slotname = entry.name or entryData.entry
 		local description = entry.description
-    	return string.format("%s\n\n|t27:27:%s|t %s\n\n%s", addonName, slotIcon, slotname, description)
+		return string.format("%s\n\n|t27:27:%s|t %s\n\n%s", addonName, slotIcon, slotname, description)
 	else
-		return "Nothing is assigned to this slot yet!"
+		return GetString(SI_LIBRADIALMENU_ASSIGN_NOTHING)
 	end
 end
 
+
+function LibRadialMenu.openSettings()
+	if (LibHarvensAddonSettings.initialized ~= true) and (LibHarvensAddonSettings.scrollList == nil)  then
+		LibHarvensAddonSettings:Initialize()
+	end
+	settings:Select()
+	local headerData = {}
+	headerData.titleText = settings.name
+	headerData.subtitleText = settings.version
+	headerData.messageText = zo_strformat(GetString(SI_ADD_ON_AUTHOR_LINE), "@M0R_Gaming")
+	ZO_GamepadGenericHeader_RefreshData(LibHarvensAddonSettings.scrollList.header, headerData)
+	SCENE_MANAGER:Push("LibHarvensAddonSettingsScene")
+end
+
+
+
+
+LibRadialMenu:RegisterAddon("libradialmenu", "LibRadialMenu")
+LibRadialMenu:RegisterEntry("libradialmenu", GetString(SI_LIBRADIALMENU_OPEN_SETTINGS), "opensettings", "esoui/art/skillsadvisor/advisor_tabicon_settings_up.dds",
+	LibRadialMenu.openSettings,
+	GetString(SI_LIBRADIALMENU_OPEN_SETTINGS_TOOLTIP))
 
 
 function LibRadialMenu.UpdateSettingsMenu()
 	settings:Clear()
 
+	if LibRadialMenu.isCN then
+		if LibRadialMenu.vars.cntype == "tradcn" then
+			LibRadialMenu.loadTradCN()
+		else
+			LibRadialMenu.loadSimpleCN()
+		end
+		LibRadialMenu:RegisterEntry("libradialmenu", GetString(SI_LIBRADIALMENU_OPEN_SETTINGS), "opensettings", "esoui/art/skillsadvisor/advisor_tabicon_settings_up.dds",
+			LibRadialMenu.openSettings,
+			GetString(SI_LIBRADIALMENU_OPEN_SETTINGS_TOOLTIP))
+	end
+
+
+
+
 	local settingsTable = {
 		{
 			type = LibHarvensAddonSettings.ST_SLIDER,
-			label = "Amount of Slots",
-			tooltip = "Set the amount of entries on the quickslot wheel.",
+			label = GetString(SI_LIBRADIALMENU_NUM_SLOTS),
+			tooltip = GetString(SI_LIBRADIALMENU_NUM_SLOTS_TOOLTIP),
 			setFunction = function(value)
 				LibRadialMenu.vars.numSlots = value
 			end,
@@ -370,14 +405,14 @@ function LibRadialMenu.UpdateSettingsMenu()
 			step = 1,
 		},
 		{
-		    type = LibHarvensAddonSettings.ST_BUTTON,
-		    label = "Refresh Settings Menu",
-		    tooltip = "After changing how many entries are present on the quickslot wheel, please press this button to update the below assignment buttons!",
+			type = LibHarvensAddonSettings.ST_BUTTON,
+			label = GetString(SI_LIBRADIALMENU_REFRESH_MENU),
+			tooltip = GetString(SI_LIBRADIALMENU_REFRESH_MENU_TOOLTIP),
 			clickHandler = LibRadialMenu.UpdateSettingsMenu,
 		},
 		{
 			type = LibHarvensAddonSettings.ST_SECTION,
-			label = "Assign Slots",
+			label = GetString(SI_LIBRADIALMENU_ASSIGN_SLOTS_HEADER),
 		},
 	}
 
@@ -398,17 +433,48 @@ function LibRadialMenu.UpdateSettingsMenu()
 
 	for i=1,#libRadialWheelEntries do
 		settingsTable[#settingsTable+1] = {
-		    type = LibHarvensAddonSettings.ST_BUTTON,
-		    label = function()
-		    	return getLabel(libRadialWheelEntries[i], i)
-		    end,
-		    buttonText = GetString(SI_GAMEPAD_ITEM_ACTION_QUICKSLOT_ASSIGN), 
-		    tooltip = function()
-		    	return getTooltip(libRadialWheelEntries[i])
-		    end,
+			type = LibHarvensAddonSettings.ST_BUTTON,
+			label = function()
+				return getLabel(libRadialWheelEntries[i], i)
+			end,
+			buttonText = GetString(SI_GAMEPAD_ITEM_ACTION_QUICKSLOT_ASSIGN), 
+			tooltip = function()
+				return getTooltip(libRadialWheelEntries[i])
+			end,
 			clickHandler = function() ZO_Dialogs_ShowPlatformDialog("LibProfileAssignDialogue", {slotIndex=i}) end,
 		}
 	end
+
+	if LibRadialMenu.isCN then
+		local lookup = {
+			[GetString(SI_LIBRADIALMENU_TRADCN)] = "tradcn",
+			[GetString(SI_LIBRADIALMENU_SIMPLECN)] = "simplecn",
+			["tradcn"] = GetString(SI_LIBRADIALMENU_TRADCN),
+			["simplecn"] = GetString(SI_LIBRADIALMENU_SIMPLECN),
+		}
+
+		table.insert(settingsTable, 1, {
+			type = LibHarvensAddonSettings.ST_DROPDOWN,
+			items = {
+				{name = GetString(SI_LIBRADIALMENU_SIMPLECN), data = "simplecn"},
+				{name = GetString(SI_LIBRADIALMENU_TRADCN), data = "tradcn"},
+			},
+			label = GetString(SI_LIBRADIALMENU_TRANSLATEDBY),
+			getFunction = function()
+				return lookup[LibRadialMenu.vars.cntype] or GetString(SI_LIBRADIALMENU_SIMPLECN)
+			end,
+			setFunction = function(control, itemName, itemData)
+				LibRadialMenu.vars.cntype = itemData.data or "simplecn"
+				LibRadialMenu.UpdateSettingsMenu()
+			end,
+		})
+	elseif GetString(SI_LIBRADIALMENU_TRANSLATEDBY) ~= "" then
+		table.insert(settingsTable, 1, {
+			type = LibHarvensAddonSettings.ST_SECTION,
+			label = GetString(SI_LIBRADIALMENU_TRANSLATEDBY),
+		})
+	end
+
 	settings:AddSettings(settingsTable)
 	if LibHarvensAddonSettings.list then
 		settings:CreateControls()
@@ -419,22 +485,6 @@ end
 
 
 
-
-LibRadialMenu:RegisterAddon("libradialmenu", "LibRadialMenu")
-LibRadialMenu:RegisterEntry("libradialmenu", "Open Settings", "opensettings", "esoui/art/skillsadvisor/advisor_tabicon_settings_up.dds",
-	function()
-		if (LibHarvensAddonSettings.initialized ~= true) and (LibHarvensAddonSettings.scrollList == nil)  then
-			LibHarvensAddonSettings:Initialize()
-		end
-		settings:Select()
-		local headerData = {}
-		headerData.titleText = settings.name
-		headerData.subtitleText = settings.version
-		headerData.messageText = zo_strformat(GetString(SI_ADD_ON_AUTHOR_LINE), "@M0R_Gaming")
-		ZO_GamepadGenericHeader_RefreshData(LibHarvensAddonSettings.scrollList.header, headerData)
-		SCENE_MANAGER:Push("LibHarvensAddonSettingsScene")
-	end,
-	"Opens the settings page for Lib Radial Menu.")
 
 
 
@@ -452,7 +502,8 @@ end
 
 local defaultSettings = {
 	numSlots = 12,
-	slots = {}
+	slots = {},
+	cntype = "simplecn",
 }
 
 -------------------------------------------------------------------------------------------------
