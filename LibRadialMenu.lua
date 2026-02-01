@@ -371,6 +371,11 @@ LibRadialMenu:RegisterEntry("libradialmenu", GetString(SI_LIBRADIALMENU_OPEN_SET
 	GetString(SI_LIBRADIALMENU_OPEN_SETTINGS_TOOLTIP))
 
 
+LibRadialMenu:RegisterEntry("libradialmenu", GetString(SI_ADDON_MANAGER_RELOAD), "reloadui", "/esoui/art/login/gamepad/loading-ouroboros.dds",
+	function() ReloadUI() end,
+	GetString(SI_GAMEPAD_ADDON_MANAGER_DELETE_SAVED_VARIABLES_RELOAD_UI_WARNING))
+
+
 function LibRadialMenu.UpdateSettingsMenu()
 	settings:Clear()
 
