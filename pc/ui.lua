@@ -25,7 +25,7 @@ local function getSlotText(entryData, index)
 			local slotIcon = entry.icon or ""
 			local slotname = entry.name or entryData.entry
 			local description = entry.description
-			return string.format("%s|t27:27:%s|t %s", string.format(GetString(SI_LIBRADIALMENU_ASSIGN_SLOT), index), slotIcon, slotname)
+			return string.format("%s|t24:24:%s|t %s", string.format(GetString(SI_LIBRADIALMENU_ASSIGN_SLOT), index), slotIcon, slotname)
 		end
 	end	
 	return string.format(GetString(SI_LIBRADIALMENU_ASSIGN_SLOT), index)
@@ -109,9 +109,10 @@ local function changeAddon(newAddon)
 		entryNameOptions[i] = nil
 	end
 	for i,v in pairs(LibRadialMenu.registeredEntries[currentAddonSelected]) do
-		entryNameOptions[#entryNameOptions+1] = v.name
-		entryLookup[i] = v.name
-		entryLookup[v.name] = i
+		local entryText = string.format("|t24:24:%s|t %s", v.icon, v.name)
+		entryNameOptions[#entryNameOptions+1] = entryText
+		entryLookup[i] = entryText
+		entryLookup[entryText] = i
 	end
 	if LibRadialMenuSettingsPageEntryDropdown then
 		LibRadialMenuSettingsPageEntryDropdown:UpdateChoices()
@@ -174,9 +175,10 @@ function LibRadialMenu.UpdateSettingsMenu() -- really its just create, but conso
 	end
 
 	for i,v in pairs(LibRadialMenu.registeredEntries[currentAddonSelected]) do
-		entryNameOptions[#entryNameOptions+1] = v.name
-		entryLookup[i] = v.name
-		entryLookup[v.name] = i
+		local entryText = string.format("|t24:24:%s|t %s", v.icon, v.name)
+		entryNameOptions[#entryNameOptions+1] = entryText
+		entryLookup[i] = entryText
+		entryLookup[entryText] = i
 	end
 
 
