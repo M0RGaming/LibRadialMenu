@@ -139,7 +139,7 @@ local defaultSettings = {
 	numSlots = 12,
 	slots = {},
 	cntype = "simplecn",
-	wheelIndex = NUM_UTILITY_WHEEL_CATEGORIES+1
+	wheelIndex = 0
 }
 
 
@@ -174,7 +174,7 @@ function LibRadialMenu:Initialize()
 
 	LibRadialMenu.vars = ZO_SavedVars:NewAccountWide("RadialMenuSlots", 1, nil, defaultSettings)
 
-	LibRadialMenu.insertWheelAtIndex(LibRadialMenu.vars.wheelIndex or 6)
+	LibRadialMenu.insertWheelAtIndex(LibRadialMenu.vars.wheelIndex or 0)
 
 	if ZO_IsTableEmpty(LibRadialMenu.vars.slots) then -- insert default if first install
 		LibRadialMenu.vars.slots[LibRadialMenu.vars.numSlots] = {addon="libradialmenu",entry="opensettings"}
