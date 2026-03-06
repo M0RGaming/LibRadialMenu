@@ -12,7 +12,7 @@ ZO_CreateStringId("SI_LIBRADIALMENU_ASSIGN_SLOTS_HEADER", "Assign Slots")
 ZO_CreateStringId("SI_LIBRADIALMENU_OPEN_SETTINGS", "Open Settings")
 ZO_CreateStringId("SI_LIBRADIALMENU_OPEN_SETTINGS_TOOLTIP", "Opens the settings page for Lib Radial Menu.")
 ZO_CreateStringId("SI_LIBRADIALMENU_WHEEL_INDEX", "Wheel Location")
-ZO_CreateStringId("SI_LIBRADIALMENU_WHEEL_INDEX_TOOLTIP", "Changes where the LibRadialMenu wheel should be placed. If set to 0, the wheel is disabled.")
+ZO_CreateStringId("SI_LIBRADIALMENU_WHEEL_INDEX_TOOLTIP", "Changes where the LibRadialMenu wheel should be placed.\nIf set to 0, the wheel is disabled.")
 
 
 ZO_CreateStringId("SI_LIBRADIALMENU_TRANSLATEDBY", "") -- translated by
