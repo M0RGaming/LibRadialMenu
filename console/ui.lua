@@ -284,6 +284,23 @@ function LibRadialMenu.UpdateSettingsMenu()
 	local settingsTable = {
 		{
 			type = LibHarvensAddonSettings.ST_SLIDER,
+			label = GetString(SI_LIBRADIALMENU_WHEEL_INDEX),
+			tooltip = GetString(SI_LIBRADIALMENU_WHEEL_INDEX_TOOLTIP),
+			setFunction = function(value)
+				LibRadialMenu.vars.wheelIndex = value
+				LibRadialMenu.resetTable()
+				LibRadialMenu.insertWheelAtIndex(value)
+			end,
+			getFunction = function()
+				return LibRadialMenu.vars.wheelIndex
+			end,
+			default = 6,
+			min = 0,
+			max = 6,
+			step = 1,
+		},
+		{
+			type = LibHarvensAddonSettings.ST_SLIDER,
 			label = GetString(SI_LIBRADIALMENU_NUM_SLOTS),
 			tooltip = GetString(SI_LIBRADIALMENU_NUM_SLOTS_TOOLTIP),
 			setFunction = function(value)

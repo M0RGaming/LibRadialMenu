@@ -12,7 +12,7 @@ local UTILITY_WHEEL_CATEGORIES =
 	HOTBAR_CATEGORY_MEMENTO_WHEEL,
 	HOTBAR_CATEGORY_TOOL_WHEEL,
 	HOTBAR_CATEGORY_EMOTE_WHEEL,
-	LIBRADIAL_WHEEL,
+	--LIBRADIAL_WHEEL, -- now it is dynamically inserted
 }
 local NUM_UTILITY_WHEEL_CATEGORIES = #UTILITY_WHEEL_CATEGORIES
 
@@ -51,12 +51,17 @@ local registeredEntries = LibRadialMenu.registeredEntries
 local addonNames = LibRadialMenu.addonNames
 
 function LibRadialMenu:RegisterAddon(addonId, addonName)
+	if type(addonName) == "number" then addonName = GetString(addonName) end
+
 	addonNames[addonId] = addonName
 	registeredEntries[addonId] = {}
 end
 
 
 function LibRadialMenu:RegisterEntry(addonId, entryName, entryId, entryIcon, entryCallback, entryDescription)
+	if type(entryName) == "number" then entryName = GetString(entryName) end
+	if type(entryDescription) == "number" then entryDescription = GetString(entryDescription) end
+
 	if (type(registeredEntries[addonId]) ~= "table") or (type(entryCallback) ~= "function") then
 		d(string.format("LibRadialMenu: Failed to register entry %s for addon %s", entryName, addonId))
 		return
@@ -134,7 +139,33 @@ local defaultSettings = {
 	numSlots = 12,
 	slots = {},
 	cntype = "simplecn",
+	wheelIndex = NUM_UTILITY_WHEEL_CATEGORIES+1
 }
+
+
+function LibRadialMenu.insertWheelAtIndex(index)
+	if index == 0 then return end
+	table.insert(UTILITY_WHEEL_CATEGORIES, index, LIBRADIAL_WHEEL)
+	NUM_UTILITY_WHEEL_CATEGORIES = #UTILITY_WHEEL_CATEGORIES
+end
+
+local vanillaWheel = {
+	HOTBAR_CATEGORY_QUICKSLOT_WHEEL,
+	HOTBAR_CATEGORY_ALLY_WHEEL,
+	HOTBAR_CATEGORY_MEMENTO_WHEEL,
+	HOTBAR_CATEGORY_TOOL_WHEEL,
+	HOTBAR_CATEGORY_EMOTE_WHEEL,
+}
+function LibRadialMenu.resetTable()
+	for i,v in pairs(UTILITY_WHEEL_CATEGORIES) do
+		UTILITY_WHEEL_CATEGORIES[i] = nil
+	end
+	for i,v in ipairs(vanillaWheel) do
+		UTILITY_WHEEL_CATEGORIES[i] = v
+	end
+	NUM_UTILITY_WHEEL_CATEGORIES = #UTILITY_WHEEL_CATEGORIES
+end
+
 
 -------------------------------------------------------------------------------------------------
 --  Initialize Function --
@@ -142,6 +173,8 @@ local defaultSettings = {
 function LibRadialMenu:Initialize()
 
 	LibRadialMenu.vars = ZO_SavedVars:NewAccountWide("RadialMenuSlots", 1, nil, defaultSettings)
+
+	LibRadialMenu.insertWheelAtIndex(LibRadialMenu.vars.wheelIndex or 6)
 
 	if ZO_IsTableEmpty(LibRadialMenu.vars.slots) then -- insert default if first install
 		LibRadialMenu.vars.slots[LibRadialMenu.vars.numSlots] = {addon="libradialmenu",entry="opensettings"}

@@ -108,11 +108,18 @@ local function changeAddon(newAddon)
 	for i,v in pairs(entryNameOptions) do
 		entryNameOptions[i] = nil
 	end
-	for i,v in pairs(LibRadialMenu.registeredEntries[currentAddonSelected]) do
-		local entryText = string.format("|t24:24:%s|t %s", v.icon, v.name)
+	local indexTable = {}
+	local addonEntries = LibRadialMenu.registeredEntries[currentAddonSelected]
+	for i,v in pairs(addonEntries) do
+		indexTable[#indexTable+1] = i
+	end
+	table.sort(indexTable)
+	for i,v in ipairs(indexTable) do
+		local cEntry = addonEntries[v]
+		local entryText = string.format("|t24:24:%s|t %s", cEntry.icon, cEntry.name)
 		entryNameOptions[#entryNameOptions+1] = entryText
-		entryLookup[i] = entryText
-		entryLookup[entryText] = i
+		entryLookup[v] = entryText
+		entryLookup[entryText] = v
 	end
 	if LibRadialMenuSettingsPageEntryDropdown then
 		LibRadialMenuSettingsPageEntryDropdown:UpdateChoices()
@@ -183,6 +190,21 @@ function LibRadialMenu.UpdateSettingsMenu() -- really its just create, but conso
 
 
 	local optionsTable = {
+		{
+			type = "slider",
+			name = SI_LIBRADIALMENU_WHEEL_INDEX,
+			tooltip = SI_LIBRADIALMENU_WHEEL_INDEX_TOOLTIP,
+			min = 0,
+			max = 6,
+			step = 1,
+			getFunc = function() return LibRadialMenu.vars.wheelIndex end,
+			setFunc = function(value)
+				LibRadialMenu.vars.wheelIndex = value
+				LibRadialMenu.resetTable()
+				LibRadialMenu.insertWheelAtIndex(value)
+			end,
+			width = "full",
+		},
 		{
 			type = "slider",
 			name = SI_LIBRADIALMENU_NUM_SLOTS,
