@@ -2,8 +2,8 @@
 ## Description: Allows users to slot addon functions onto a customizable quickslot wheel
 ## Author: |c0DC1CF@M0R_Gaming|r
 ## APIVersion: 101048
-## Version: 6
-## AddOnVersion: 6
+## Version: 7
+## AddOnVersion: 7
 ## IsLibrary: true
 ## SavedVariables: RadialMenuSlots
 ## ConsoleDependsOn: LibHarvensAddonSettings>=20103
